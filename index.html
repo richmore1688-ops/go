@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>正在前往 LINE…</title>
+<script>
+/* ====== 只需要改這一區 ====== */
+// Meta Pixel ID(留空 = 不追蹤)
+var PIXEL_ID = '';
+// 跳轉目的地:網址後面加 ?to=名稱 就會去對應連結;沒帶參數就去 default
+var LINKS = {
+  default: 'https://line.me/R/ti/p/@REPLACE_ME',  // 預設:LINE OA 或社群連結
+  stove:   'https://line.me/R/ti/p/@REPLACE_ME',  // 折疊爐
+  cleaner: 'https://line.me/R/ti/p/@REPLACE_ME'   // 平面清潔器
+};
+var DELAY_MS = 800; // 等 Pixel 送出後再跳轉
+/* ============================ */
+
+var q = new URLSearchParams(location.search);
+var key = q.get('to') || 'default';
+var target = LINKS[key] || LINKS['default'];
+
+if (PIXEL_ID) {
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+  n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+  document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', PIXEL_ID);
+  fbq('track', 'PageView');
+  fbq('track', 'Lead', {content_name: key});
+  fbq('trackCustom', 'LineRedirect', {to: key});
+}
+setTimeout(function(){ location.replace(target); }, DELAY_MS);
+</script>
+<style>
+  :root{--bg:#f5f7f5;--fg:#1f2a1f;--muted:#6b766b;--line:#06c755}
+  @media (prefers-color-scheme:dark){:root{--bg:#111511;--fg:#eef2ee;--muted:#9aa59a}}
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
+    background:var(--bg);color:var(--fg);font-family:-apple-system,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;padding:16px;text-align:center}
+  .spin{width:44px;height:44px;margin:0 auto 20px;border:4px solid rgba(6,199,85,.2);
+    border-top-color:var(--line);border-radius:50%;animation:s 0.9s linear infinite}
+  @keyframes s{to{transform:rotate(360deg)}}
+  h1{font-size:18px;margin:0 0 8px}
+  p{color:var(--muted);font-size:14px;margin:0 0 24px}
+  a.btn{display:inline-block;background:var(--line);color:#fff;text-decoration:none;
+    padding:14px 28px;border-radius:999px;font-weight:600;font-size:16px}
+</style>
+</head>
+<body>
+  <main>
+    <div class="spin"></div>
+    <h1>正在前往 LINE…</h1>
+    <p>如果沒有自動開啟,請點下方按鈕</p>
+    <a class="btn" id="btn" href="#">開啟 LINE</a>
+  </main>
+  <script>document.getElementById('btn').href = target;</script>
+</body>
+</html>
